@@ -1,0 +1,23 @@
+default: &default
+  host: <%= `docker-machine ip shotgun-api` %>
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: postgres
+  password: postgres
+
+development:
+  <<: *default
+  database: postgres_dev
+
+test:
+  <<: *default
+  database: postgres_test
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: production
+  pool: 5
+  username: izzatbamieh1
+  password: izzy678362!78Qu@ndel_D@shboArD%
