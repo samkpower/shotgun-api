@@ -2,7 +2,7 @@ class V1::ApiController < ApplicationController
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format.json? }
   respond_to :json
 
-  after_filter :set_headers
+  after_action :set_headers
 
   def preflight_check
     render json: :ok
