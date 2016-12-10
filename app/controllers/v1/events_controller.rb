@@ -13,7 +13,7 @@ class V1::EventsController < V1::ApiController
     if @event.save
       render json: @event, status: 201, location: v1_event_url(@event)
     else
-      render json: { errors: @event.errors }, status: 422
+      render json: { errors: errors_json_api_format(@event.errors) }, status: 422
     end
   end
 
@@ -41,5 +41,11 @@ class V1::EventsController < V1::ApiController
 
     def event_params
       params.require(:event).permit(:name, :start, :end)
+    end
+
+    def errors_json_api_format(errors)
+      return errors.map do |attribute, message|
+        { detail: message, source: { pointer: "data/attributes/#{attribute}" } }
+      end
     end
 end
