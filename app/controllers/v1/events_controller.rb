@@ -23,17 +23,17 @@ class V1::EventsController < V1::ApiController
     if @event.update(event_params)
       render json: @event, status: 200, location: v1_event_url(@event)
     else
-      render json: { errors: @event.errors }, status: 422
+      render json: { errors: errors_json_api_format(@event.errors) }, status: 422
     end
   end
 
   def destroy
     @event = Event.find(params[:id])
 
-    if @event.destroy(event_params)
+    if @event.destroy
       render json: @event, status: 200, location: v1_event_url(@event)
     else
-      render json: { errors: @event.errors }, status: 422
+      render json: { errors: errors_json_api_format(@event.errors) }, status: 422
     end
   end
 
