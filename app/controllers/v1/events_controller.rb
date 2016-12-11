@@ -1,4 +1,6 @@
 class V1::EventsController < V1::ApiController
+  before_filter :authenticate_api_request!
+
   def index
     respond_with Event.all
   end
@@ -39,13 +41,8 @@ class V1::EventsController < V1::ApiController
 
   private
 
-    def event_params
-      params.require(:event).permit(:name, :start, :end)
-    end
+  def event_params
+    params.require(:event).permit(:name, :start, :end)
+  end
 
-    def errors_json_api_format(errors)
-      return errors.map do |attribute, message|
-        { detail: message, source: { pointer: "data/attributes/#{attribute}" } }
-      end
-    end
 end

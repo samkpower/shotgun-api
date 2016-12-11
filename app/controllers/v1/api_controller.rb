@@ -15,4 +15,10 @@ class V1::ApiController < ApplicationController
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
     response.headers['Content-Type'] = 'application/json'
   end
+
+  def errors_json_api_format(errors)
+    return errors.map do |attribute, message|
+      { detail: message, source: { pointer: "data/attributes/#{attribute}" } }
+    end
+  end
 end
