@@ -1,6 +1,4 @@
 class V1::EventsController < V1::ApiController
-  before_filter :authenticate_api_request!
-
   def index
     respond_with Event.all
   end

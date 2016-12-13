@@ -7,7 +7,6 @@ class User < ApplicationRecord
 
   validates :email, :password, presence: true
 
-  # You likely have this before callback set up for the token.
   before_save :ensure_authentication_token
 
   def ensure_authentication_token
