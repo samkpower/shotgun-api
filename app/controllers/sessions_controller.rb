@@ -5,6 +5,7 @@ class SessionsController < Devise::SessionsController
     super do |user|
       if request.format.json?
         data = {
+          id: user.id,
           token: user.authentication_token,
           email: user.email
         }
