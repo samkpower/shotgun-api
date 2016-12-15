@@ -1,6 +1,10 @@
 class V1::EventsController < V1::ApiController
   def index
-    respond_with Event.all
+    if filter_params
+      respond_with Event.where(filter_params)
+    else
+      respond_with Event.all
+    end
   end
 
   def show
@@ -40,7 +44,11 @@ class V1::EventsController < V1::ApiController
   private
 
   def event_params
-    params.require(:event).permit(:name, :start, :end)
+    params.require(:event).permit(:name, :start, :end, :user_id)
   end
 
+  def filter_params
+    allowed_filters = params.permit(filter: [:user_id])
+    return allowed_filters.fetch(:filter, nil)
+  end
 end
