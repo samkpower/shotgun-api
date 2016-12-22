@@ -17,6 +17,8 @@ gem 'flexbox-rails', '1.0.1'
 gem 'devise', '4.2.0'
 gem 'paper_trail', '5.2.2'
 gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'rack-cors', require: 'rack/cors'
 
 group :development do
   gem 'byebug'
