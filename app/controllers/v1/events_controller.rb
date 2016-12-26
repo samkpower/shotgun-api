@@ -1,4 +1,6 @@
 class V1::EventsController < V1::ApiController
+  before_action :authenticate_api_request!
+
   def index
     if filter_params
       respond_with Event.where(filter_params)
