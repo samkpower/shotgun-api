@@ -7,10 +7,13 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_user_from_token!
-    user_email = params[:user_email].presence
-    user = user_email && User.find_by_email(user_email)
+    user_email = request.headers['HTTP_REQUESTOR_EMAIL'].presence
+    user = user_email && User.find_by(email: user_email)
+    auth_token = request.headers['HTTP_AUTHORIZATION_TOKEN']
 
-    if user && Devise.secure_compare(user.authentication_token, params[:user_token])
+    return false unless user && auth_token.present?
+
+    if user && Devise.secure_compare(user.authentication_token, auth_token)
       sign_in user, store: false
     end
   end
