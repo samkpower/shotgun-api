@@ -255,7 +255,7 @@ Devise.setup do |config|
         request = Rack::Request.new(env)
         host = Rails.env.development? ? 'http://localhost:4200' : 'http://shotgun-web.s3-website-us-east-1.amazonaws.com/'
         env['omniauth.strategy'].options['token_params'] = {
-          redirect_uri: 'http://localhost:4200/oauth2callback'
+          redirect_uri: "#{host}/oauth2callback"
         }
       end)
 
