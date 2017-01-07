@@ -6,7 +6,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = 'd254173e664a724f59d3fb7d5a43543b6d6f3935f514eb877085de82be8eaa04ae3264bb913125962067b871b11f6c5e0a58d578f7b2e673a2c25a607f29c8c4'
+  config.secret_key = ENV['DEVISE_SECRET_KEY']
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -67,7 +67,7 @@ Devise.setup do |config|
   # config.http_authenticatable = false
 
   # If 401 status code should be returned for AJAX requests. True by default.
-  # config.http_authenticatable_on_xhr = true
+  config.http_authenticatable_on_xhr = false
 
   # The realm used in Http Basic Authentication. 'Application' by default.
   # config.http_authentication_realm = 'Application'
@@ -239,7 +239,7 @@ Devise.setup do |config|
   # should add them to the navigational formats lists.
   #
   # The "*/*" below is required to match Internet Explorer requests.
-  # config.navigational_formats = ['*/*', :html]
+  config.navigational_formats = ['*/*', :html, :json]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
@@ -253,6 +253,7 @@ Devise.setup do |config|
     provider_ignores_state: true,
     setup: (lambda do |env|
         request = Rack::Request.new(env)
+        host = Rails.env.development? ? 'http://localhost:4200' : 'http://shotgun-web.s3-website-us-east-1.amazonaws.com/'
         env['omniauth.strategy'].options['token_params'] = {
           redirect_uri: 'http://localhost:4200/oauth2callback'
         }

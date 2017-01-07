@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+
   private
 
   def authenticate_api_request!
