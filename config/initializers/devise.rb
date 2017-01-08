@@ -253,7 +253,7 @@ Devise.setup do |config|
     provider_ignores_state: true,
     setup: (lambda do |env|
         request = Rack::Request.new(env)
-        host = Rails.env.development? ? 'http://localhost:4200' : 'http://shotgun-web.s3-website-us-east-1.amazonaws.com/'
+        host = Rails.env.development? ? 'http://localhost:4200' : 'http://find-flow.com'
         env['omniauth.strategy'].options['token_params'] = {
           redirect_uri: "#{host}/oauth2callback"
         }
