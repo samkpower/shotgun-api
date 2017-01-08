@@ -8,7 +8,6 @@ gem 'bootstrap-will_paginate', '0.0.10'
 gem 'sass-rails', '5.0.6'
 gem 'uglifier', '3.0.2'
 gem 'jquery-rails', '4.2.1'
-gem 'turbolinks', '5.0.1'
 gem 'jbuilder', '2.6.0'
 gem 'sdoc',           '0.4.0', group: :doc
 gem 'haml-rails', '0.9.0'
