@@ -46,7 +46,7 @@ class V1::ToDosController < V1::ApiController
   private
 
   def to_do_params
-    params.require(:to_do).permit(:name, :user_id)
+    params.require(:to_do).permit(:name, :user_id, :complete)
   end
 
   def filter_params
