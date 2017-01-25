@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_many :events
+  has_many :to_dos
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
