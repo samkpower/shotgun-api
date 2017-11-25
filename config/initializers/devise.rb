@@ -249,15 +249,15 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
-  config.omniauth :google_oauth2, ENV['GOOG_API_CLIENT_ID'], ENV['GOOG_API_CLIENT_SECRET'],
-    provider_ignores_state: true,
-    setup: (lambda do |env|
-        request = Rack::Request.new(env)
-        host = Rails.env.development? ? 'http://localhost:4200' : 'http://find-flow.com'
-        env['omniauth.strategy'].options['token_params'] = {
-          redirect_uri: "#{host}/oauth2callback"
-        }
-      end)
+  config.omniauth :google_oauth2, ENV['FLOW_GOOG_API_CLIENT_ID'], ENV['FLOW_GOOG_API_CLIENT_SECRET'],
+                  provider_ignores_state: true,
+                  setup: (lambda do |env|
+                            request = Rack::Request.new(env)
+                            host = Rails.env.development? ? 'http://localhost:4200' : 'http://find-flow.com'
+                            env['omniauth.strategy'].options['token_params'] = {
+                              redirect_uri: "#{host}/oauth2callback"
+                            }
+                          end)
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
