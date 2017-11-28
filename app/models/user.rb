@@ -1,6 +1,9 @@
 class User < ApplicationRecord
   has_many :events
   has_many :to_dos
+  has_many :authorizations
+
+  include User::HasGoogleCalendar
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
@@ -10,7 +13,6 @@ class User < ApplicationRecord
   #:confirmable
 
   validates :email, :password, presence: true
-
   before_save :ensure_authentication_token
 
   def ensure_authentication_token
@@ -26,7 +28,9 @@ class User < ApplicationRecord
     user ||= User.create(first_name: user_info.first_name,
                          last_name: user_info.last_name,
                          email: user_info.email,
-                         password: Devise.friendly_token[0, 20])
+                         password: Devise.friendly_token[0, 20],
+                         uid: access_token.uid,
+                         provider: access_token.provider)
 
     user
   end

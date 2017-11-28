@@ -1,5 +1,5 @@
 class SessionsController < Devise::SessionsController
-  respond_to :json
+  respond_to :json, :html
 
   def create
     super do |user|
@@ -9,7 +9,7 @@ class SessionsController < Devise::SessionsController
           token: user.authentication_token,
           email: user.email
         }
-        render json: data, status: 201 and return
+        render(json: data, status: 201) && return
       end
     end
   end

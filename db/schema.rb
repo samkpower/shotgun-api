@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170125030017) do
+ActiveRecord::Schema.define(version: 20171127202450) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "authorizations", force: :cascade do |t|
+    t.string  "provider"
+    t.integer "user_id"
+    t.string  "refresh_token"
+    t.string  "access_token"
+    t.string  "scopes",        default: [], array: true
+    t.index ["scopes"], name: "index_authorizations_on_scopes", using: :gin
+    t.index ["user_id"], name: "index_authorizations_on_user_id", using: :btree
+  end
 
   create_table "events", force: :cascade do |t|
     t.datetime "start"
