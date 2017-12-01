@@ -39,7 +39,12 @@ module Users
     end
 
     def guarantee_google_authorization!(user)
-      return if user.google_authorization.present?
+      return if user.authorizations.find_by(
+        user_id: user.id,
+        provider: omniauth_payload[:provider],
+        refresh_token: omniauth_payload[:credentials][:refresh_token]
+      )
+      binding.pry
       user.authorizations.create!(
         user_id: user.id,
         provider: omniauth_payload[:provider],
