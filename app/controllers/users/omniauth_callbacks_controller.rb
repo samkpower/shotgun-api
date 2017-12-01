@@ -1,3 +1,4 @@
+# TODO: Temporary HTML endpoints for testing
 module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     respond_to :json, :html
@@ -8,7 +9,6 @@ module Users
 
       if @user.persisted?
         respond_to do |format|
-          # TODO: remove this
           format.html do
             sign_in(@user, scope: :user)
             return redirect_to new_user_session_path
@@ -30,10 +30,6 @@ module Users
 
     def omniauth_payload
       request.env['omniauth.auth']
-    end
-
-    def one_use_code
-      params[:code]
     end
 
     def guarantee_authorization!(user)

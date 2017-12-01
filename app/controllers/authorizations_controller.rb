@@ -1,3 +1,4 @@
+# TODO: Convert these to API endpoints
 class AuthorizationsController < ApplicationController
   before_action :authenticate_user!
 

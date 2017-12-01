@@ -1,3 +1,4 @@
+# TODO: temporary controller for testing
 class GoogleEventsController < ApplicationController
   before_action :authenticate_user!, :require_gcal_authorization!
 
