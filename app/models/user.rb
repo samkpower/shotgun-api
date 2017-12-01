@@ -21,6 +21,17 @@ class User < ApplicationRecord
     end
   end
 
+  def guaranteed_google_authorization
+    authorizations.where(provider: 'google_oauth2')&.first || create_google_authorization!
+  end
+
+  def create_google_authorization!
+    google_authorization = authorizations.create!(
+      provider: 'google_oauth2',
+    )
+    google_authorization
+  end
+
   def self.from_omniauth(access_token)
     user_info = access_token.info
     user = User.find_by(email: user_info.email)

@@ -3,7 +3,9 @@ module Users
     respond_to :json, :html
 
     def google_oauth2
-      @user = User.from_omniauth(request.env['omniauth.auth'])
+      @user = User.from_omniauth(omniauth_payload)
+      guarantee_authorization!(@user)
+
       if @user.persisted?
         respond_to do |format|
           # TODO: remove this
@@ -22,6 +24,33 @@ module Users
           end
         end
       end
+    end
+
+    private
+
+    def omniauth_payload
+      request.env['omniauth.auth']
+    end
+
+    def one_use_code
+      params[:code]
+    end
+
+    def guarantee_authorization!(user)
+      if omniauth_payload[:provider] == 'google_oauth2'
+        guarantee_google_authorization!(user)
+      end
+    end
+
+    def guarantee_google_authorization!(user)
+      return if user.google_authorization.present?
+      user.authorizations.create!(
+        user_id: user.id,
+        provider: omniauth_payload[:provider],
+        refresh_token: omniauth_payload[:credentials][:refresh_token],
+        access_token: omniauth_payload[:credentials].to_json,
+        scopes: %w[profile email]
+      )
     end
   end
 end
