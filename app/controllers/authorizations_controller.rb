@@ -15,7 +15,6 @@ class AuthorizationsController < ApplicationController
 
   def callbacks
     user_id = current_user.uid
-    current_user.guarantee_gcal_authorization!
     authorizer.handle_auth_callback(user_id, request)
     redirect_to root_url
   end

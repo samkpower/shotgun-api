@@ -17,19 +17,12 @@ class User
         GcalendarTokenStore.new
       )
       credentials = authorizer.get_credentials(uid)
-      guarantee_gcal_authorization!
       credentials
     end
 
     def guarantee_gcal_authorization!
       return google_calendar_authorization if google_calendar_authorization.present?
-      if google_authorization.present?
-        existing_scopes = google_authorization.scopes.dup
-        google_authorization.update!(scopes: existing_scopes += [GOOGLE_CALENDAR_READ_ONLY_SCOPE])
-        google_authorization
-      else
-        Authorization.create!(user_id: id, provider: 'google_oauth2')
-      end
+      google_authorization
     end
 
     def get_gcal_events
@@ -65,7 +58,10 @@ class User
       def store(id, token)
         puts "store token #{id}, #{token}"
         user = User.find_by!(uid: id)
-        authorization = user.guarantee_gcal_authorization!
+        # TODO: use another storage method
+        google_authorization = guaranteed_google_authorization
+        existing_scopes = google_authorization.scopes.dup
+        google_authorization.update!(scopes: existing_scopes += [GOOGLE_CALENDAR_READ_ONLY_SCOPE])
         authorization.update!(access_token: token)
       end
 
