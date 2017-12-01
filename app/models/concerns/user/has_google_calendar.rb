@@ -59,7 +59,7 @@ class User
         puts "store token #{id}, #{token}"
         user = User.find_by!(uid: id)
         # TODO: use another storage method
-        google_authorization = guaranteed_google_authorization
+        google_authorization = user.guaranteed_google_authorization
         existing_scopes = google_authorization.scopes.dup
         google_authorization.update!(scopes: existing_scopes += [GOOGLE_CALENDAR_READ_ONLY_SCOPE])
         authorization.update!(access_token: token)
