@@ -5,9 +5,10 @@ module Users
 
     def google_oauth2
       @user = User.from_omniauth(omniauth_payload)
-      guarantee_authorization!(@user)
 
       if @user.persisted?
+        find_or_create_google_authorization(@user)
+
         respond_to do |format|
           format.html do
             sign_in(@user, scope: :user)
@@ -32,14 +33,12 @@ module Users
       request.env['omniauth.auth']
     end
 
-    def guarantee_authorization!(user)
-      if omniauth_payload[:provider] == 'google_oauth2'
-        guarantee_google_authorization!(user)
-      end
-    end
-
-    def guarantee_google_authorization!(user)
-      return if user.google_authorization.present?
+    def find_or_create_google_authorization(user)
+      return if user.authorizations.find_by(
+        user_id: user.id,
+        provider: omniauth_payload[:provider],
+        refresh_token: omniauth_payload[:credentials][:refresh_token]
+      )
       user.authorizations.create!(
         user_id: user.id,
         provider: omniauth_payload[:provider],

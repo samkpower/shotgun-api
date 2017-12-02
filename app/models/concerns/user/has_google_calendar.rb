@@ -3,7 +3,7 @@ class User
     extend ActiveSupport::Concern
 
     GOOGLE_CALENDAR_READ_ONLY_SCOPE = ::Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY
-    GOOGLE_CALENDAR_CALLBACK_URI = 'http://localhost:3000/authorizations/callbacks'.freeze
+    GOOGLE_CALENDAR_CALLBACK_URI = "#{HOST_URL}/authorizations/callbacks".freeze
     GOOGLE_CALENDAR_OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
 
     def google_calendar_authorization
@@ -62,7 +62,7 @@ class User
         google_authorization = user.guaranteed_google_authorization
         existing_scopes = google_authorization.scopes.dup
         google_authorization.update!(scopes: existing_scopes += [GOOGLE_CALENDAR_READ_ONLY_SCOPE])
-        authorization.update!(access_token: token)
+        google_authorization.update!(access_token: token)
       end
 
       def delete(id)

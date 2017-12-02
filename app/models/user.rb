@@ -34,7 +34,7 @@ class User < ApplicationRecord
 
   def self.from_omniauth(access_token)
     user_info = access_token.info
-    user = User.find_by!(email: user_info.email)
+    user = User.find_by(email: user_info.email)
 
     user ||= User.create(first_name: user_info.first_name,
                          last_name: user_info.last_name,
