@@ -249,7 +249,14 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
-  config.omniauth :google_oauth2, ENV['FLOW_GOOG_API_CLIENT_ID'], ENV['FLOW_GOOG_API_CLIENT_SECRET'], access_type: 'offline', scope: 'email,profile', prompt: 'consent'
+  config.omniauth :google_oauth2,
+                  Rails.application.secrets.google_api_client_id,
+                  Rails.application.secrets.google_api_client_secret,
+                  access_type: 'offline',
+                  scope: 'email,profile',
+                  prompt: 'consent',
+                  provider_ignores_state: true,
+                  redirect_uri: Rails.application.secrets.oauth_redirect_uri
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
